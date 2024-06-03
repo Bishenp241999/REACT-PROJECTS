@@ -68,7 +68,7 @@ button:focus-visible {
 .message {
   padding: 0.5em 1.5em;
   margin-top: 0.5em;
-  background: #121212;
+  background: transparent;
   border: 1em;
 }
 
