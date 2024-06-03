@@ -1,35 +1,76 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+// import { useState } from 'react'
+
+import { useEffect, useState } from 'react';
 import './App.css'
+import { TodoProvider } from './context/context'
+import { Header, TodoForm, TodoItem } from './components';
+
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [todos, setTodos] = useState([]);
+
+  // in the above todos array
+  const addTodo = (todo) => {
+    setTodos(
+      (prev) => [{ id: Date.now(), ...todo }, ...prev]
+    )
+  };
+
+  const updateTodo = (id, todo) => {
+    setTodos(
+      (prev) => prev.map(
+        (prevTodo) => (prevTodo.id === todo.id ? todo : prevTodo)
+      )
+    )
+  };
+
+  const deletetodo = (id) => {
+    setTodos(
+      (prev) => prev.filter((todo) => todo.id !== id)
+    )
+  };
+
+
+  const toggleComplete = (id) => {
+    setTodos((prev) =>
+      prev.map((prevTodo) =>
+        prevTodo.id === id ? { ...prevTodo, completed: !prevTodo.completed } : { prevTodo }
+      )
+    )
+  }
+
+  // useEffect() hooks to handle local storage
+  // getItem
+  useEffect(() => {
+    const todos = JSON.parse(localStorage.getItem("todos"))
+    if (todos && todos.length > 0) {
+      setTodos(todos);
+    }
+  }, []);
+  // setItem
+  useEffect(() => {
+    localStorage.setItem("todos", JSON.stringify(todos))
+  }, [todos])
 
   return (
-    <>
+    <TodoProvider value={{ todos, addTodo, updateTodo, deletetodo, toggleComplete }}>
+      <Header />
+      <div className='mb-4'>
+        <TodoForm />
+      </div>
       <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        {
+          todos.map((todo) => (
+            <div key={todo.id}>
+              <div className='w-full'>
+                <TodoItem todo={todo} />
+              </div>
+            </div>
+          ))
+        }
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    </TodoProvider>
   )
 }
 
-export default App
+export default App;
