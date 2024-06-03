@@ -70,6 +70,7 @@ button:focus-visible {
   margin-top: 0.5em;
   background: transparent;
   border: 1em;
+  width: 20rem;
 }
 
 .save {
