@@ -1,0 +1,42 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 65px;
+  row-gap: 40px;
+  justify-items: stretch;
+  align-items: center;
+}
+
+.card {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.card p {
+  font-size: large;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+.container.header {
+  grid-column: 1/-1;
+}
+
+.timer{
+  grid-column: 1/-1;
+}
+.container header {
+  color: #4D869C;
+  display: inline-block;
+  text-align: center;
+  font-size: xx-large;
+  font-weight: 700;
+}
